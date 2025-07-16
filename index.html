@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
+    <meta name="theme-color" content="#000000">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>🎉 Convite Churrasco na Laje! 🎉</title>
     <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Fredoka+One&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
@@ -22,6 +25,7 @@
             <button id="musicToggle" class="music-btn" onclick="toggleMusic()">
                 🎵
             </button>
+            <div class="music-hint">🎵 Clique em qualquer lugar para ativar a música! 🎵</div>
         </div>
         
         <h1 class="titulo-principal">🎂 ANIVERSÁRIO! 🎂</h1>
@@ -294,6 +298,20 @@
         100% { transform: scale(1); }
     }
 
+    .music-hint {
+        color: #f59e0b;
+        font-size: 0.9em;
+        margin-top: 10px;
+        text-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
+        animation: blink 2s infinite;
+        font-weight: bold;
+    }
+
+    @keyframes blink {
+        0%, 50% { opacity: 1; }
+        51%, 100% { opacity: 0.3; }
+    }
+
     .modal {
         display: none;
         position: fixed;
@@ -457,6 +475,304 @@
         }
     }
 
+    /* ===== RESPONSIVIDADE ===== */
+    
+    /* Tablets (768px - 1024px) */
+    @media (max-width: 1024px) {
+        .titulo-principal {
+            font-size: 2.5em;
+            margin-bottom: 25px;
+        }
+        
+        .card-convite {
+            padding: 25px;
+            margin: 15px 0;
+        }
+        
+        .titulo-retro {
+            font-size: 1.8em;
+        }
+        
+        .detalhes {
+            font-size: 1.1em;
+        }
+        
+        .img-container {
+            width: 220px;
+            height: 220px;
+            margin: 25px auto;
+        }
+        
+        .botoes {
+            gap: 25px;
+        }
+        
+        .btn {
+            padding: 15px 30px;
+            font-size: 1.1em;
+        }
+        
+        .music-btn {
+            width: 55px;
+            height: 55px;
+            font-size: 22px;
+        }
+        
+        .modal-content {
+            margin: 10% auto;
+            padding: 30px;
+            width: 85%;
+        }
+    }
+    
+    /* Mobile (até 767px) */
+    @media (max-width: 767px) {
+        #conteudo {
+            padding: 15px;
+            min-height: 100vh;
+        }
+        
+        .titulo-principal {
+            font-size: 2em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .card-convite {
+            padding: 20px;
+            margin: 15px 0;
+            transform: rotate(0deg);
+            border-radius: 15px;
+        }
+        
+        .card-convite {
+            animation: float-mobile 3s ease-in-out infinite;
+        }
+        
+        @keyframes float-mobile {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+        
+        .titulo-retro {
+            font-size: 1.4em;
+            line-height: 1.3;
+        }
+        
+        .detalhes {
+            font-size: 1em;
+            line-height: 1.5;
+        }
+        
+        .detalhes p {
+            margin: 6px 0;
+        }
+        
+        .img-container {
+            width: 180px;
+            height: 180px;
+            margin: 20px auto;
+            border-radius: 50%;
+        }
+        
+        .emoji-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+        
+        .botoes {
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+            max-width: 280px;
+        }
+        
+        .btn {
+            padding: 18px 25px;
+            font-size: 1.1em;
+            width: 100%;
+            border-radius: 15px;
+        }
+        
+        .btn-sim {
+            order: 1;
+        }
+        
+        .btn-nao {
+            order: 2;
+        }
+        
+        .music-player {
+            top: 15px;
+            right: 15px;
+        }
+        
+        .music-btn {
+            width: 50px;
+            height: 50px;
+            font-size: 20px;
+        }
+        
+        .music-hint {
+            font-size: 0.8em;
+            margin-top: 8px;
+        }
+        
+        .modal-content {
+            margin: 5% auto;
+            padding: 25px 20px;
+            width: 90%;
+            max-width: 320px;
+            border-radius: 15px;
+        }
+        
+        .modal-content h2 {
+            font-size: 1.5em;
+        }
+        
+        .modal-content p {
+            font-size: 1em;
+        }
+        
+        .fechar-modal {
+            width: 25px;
+            height: 25px;
+            font-size: 14px;
+            top: 8px;
+            right: 12px;
+        }
+        
+        .btn-teste {
+            margin-top: 15px;
+            padding: 12px 20px;
+            font-size: 0.9em;
+        }
+    }
+    
+    /* Mobile pequeno (até 480px) */
+    @media (max-width: 480px) {
+        .titulo-principal {
+            font-size: 1.8em;
+        }
+        
+        .card-convite {
+            padding: 15px;
+        }
+        
+        .titulo-retro {
+            font-size: 1.2em;
+        }
+        
+        .detalhes {
+            font-size: 0.9em;
+        }
+        
+        .img-container {
+            width: 150px;
+            height: 150px;
+        }
+        
+        .btn {
+            padding: 16px 20px;
+            font-size: 1em;
+        }
+        
+        .music-btn {
+            width: 45px;
+            height: 45px;
+            font-size: 18px;
+        }
+        
+        .modal-content {
+            padding: 20px 15px;
+            width: 95%;
+        }
+    }
+    
+    /* Mobile muito pequeno (até 360px) */
+    @media (max-width: 360px) {
+        .titulo-principal {
+            font-size: 1.6em;
+        }
+        
+        .titulo-retro {
+            font-size: 1.1em;
+        }
+        
+        .img-container {
+            width: 130px;
+            height: 130px;
+        }
+        
+        .btn {
+            padding: 14px 18px;
+            font-size: 0.9em;
+        }
+    }
+    
+    /* Orientação landscape em mobile */
+    @media (max-width: 767px) and (orientation: landscape) {
+        #conteudo {
+            padding: 10px;
+        }
+        
+        .titulo-principal {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+        
+        .card-convite {
+            padding: 15px;
+            margin: 10px 0;
+        }
+        
+        .img-container {
+            width: 120px;
+            height: 120px;
+            margin: 10px auto;
+        }
+        
+        .botoes {
+            flex-direction: row;
+            gap: 10px;
+            max-width: 300px;
+        }
+        
+        .btn {
+            padding: 12px 20px;
+            font-size: 0.9em;
+            width: auto;
+        }
+    }
+    
+    /* Ajustes para telas muito grandes */
+    @media (min-width: 1200px) {
+        .titulo-principal {
+            font-size: 3.5em;
+        }
+        
+        .card-convite {
+            padding: 40px;
+            margin: 30px 0;
+        }
+        
+        .titulo-retro {
+            font-size: 2.5em;
+        }
+        
+        .img-container {
+            width: 300px;
+            height: 300px;
+        }
+        
+        .btn {
+            padding: 20px 40px;
+            font-size: 1.3em;
+        }
+    }
+
     .fogo[style*="--x"] {
         animation: fogo-explosao 2s ease-out forwards;
     }
@@ -496,8 +812,10 @@
         }
         
         .emoji-img {
-            width: 100px;
-            height: 100px;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
         }
         
         .botoes {
@@ -756,13 +1074,16 @@
     // Configuração das partículas
     let particlesInstance;
     if (typeof particlesJS !== 'undefined') {
+        // Detectar se é mobile para ajustar partículas
+        const isMobile = window.innerWidth <= 767;
+        
         particlesInstance = particlesJS('particles-js', {
             particles: {
                 number: {
-                    value: 80,
+                    value: isMobile ? 40 : 80, // Menos partículas em mobile
                     density: {
                         enable: true,
-                        value_area: 800
+                        value_area: isMobile ? 600 : 800
                     }
                 },
                 color: {
@@ -804,14 +1125,14 @@
                 },
                 move: {
                     enable: true,
-                    speed: 4,
+                    speed: isMobile ? 3 : 4, // Velocidade menor em mobile
                     direction: 'none',
                     random: true,
                     straight: false,
                     out_mode: 'bounce',
                     bounce: true,
                     attract: {
-                        enable: true,
+                        enable: !isMobile, // Desabilitar atração em mobile para melhor performance
                         rotateX: 600,
                         rotateY: 1200
                     }
@@ -890,8 +1211,19 @@
             }
         }
         
-        // Executar sincronização a cada 100ms
-        setInterval(sincronizarParticulasComMusica, 100);
+            // Executar sincronização a cada 100ms
+    setInterval(sincronizarParticulasComMusica, 100);
+    
+    // Ajustar partículas quando a tela for redimensionada
+    window.addEventListener('resize', () => {
+        if (particlesInstance && typeof particlesInstance.pJS !== 'undefined') {
+            const isMobile = window.innerWidth <= 767;
+            particlesInstance.pJS.particles.number.value = isMobile ? 40 : 80;
+            particlesInstance.pJS.particles.move.speed = isMobile ? 3 : 4;
+            particlesInstance.pJS.particles.move.attract.enable = !isMobile;
+            particlesInstance.pJS.fn.particlesRefresh();
+        }
+    });
     }
 
     // Tentar tocar música automaticamente quando a página carregar
@@ -920,6 +1252,12 @@
                 isMusicPlaying = true;
                 if (musicBtn) {
                     musicBtn.classList.add('playing');
+                    musicBtn.textContent = '🎵';
+                }
+                // Esconder a dica quando a música começar automaticamente
+                const musicHint = document.querySelector('.music-hint');
+                if (musicHint) {
+                    musicHint.style.display = 'none';
                 }
             }).catch(() => {
                 // Se não conseguir tocar automaticamente, mostra botão pausado
@@ -930,6 +1268,52 @@
             });
         }
     });
+
+    // Adicionar listener para qualquer interação do usuário para iniciar música
+    document.addEventListener('click', function iniciarMusica() {
+        if (bgMusic && !isMusicPlaying) {
+            bgMusic.play().then(() => {
+                isMusicPlaying = true;
+                if (musicBtn) {
+                    musicBtn.classList.add('playing');
+                    musicBtn.classList.remove('paused');
+                    musicBtn.textContent = '🎵';
+                }
+                // Esconder a dica quando a música começar
+                const musicHint = document.querySelector('.music-hint');
+                if (musicHint) {
+                    musicHint.style.display = 'none';
+                }
+            }).catch(() => {
+                console.log('Não foi possível iniciar a música');
+            });
+        }
+        // Remove o listener após a primeira interação
+        document.removeEventListener('click', iniciarMusica);
+    }, { once: true });
+
+    // Tentar tocar música quando o usuário interagir com a página
+    document.addEventListener('touchstart', function iniciarMusicaTouch() {
+        if (bgMusic && !isMusicPlaying) {
+            bgMusic.play().then(() => {
+                isMusicPlaying = true;
+                if (musicBtn) {
+                    musicBtn.classList.add('playing');
+                    musicBtn.classList.remove('paused');
+                    musicBtn.textContent = '🎵';
+                }
+                // Esconder a dica quando a música começar
+                const musicHint = document.querySelector('.music-hint');
+                if (musicHint) {
+                    musicHint.style.display = 'none';
+                }
+            }).catch(() => {
+                console.log('Não foi possível iniciar a música');
+            });
+        }
+        // Remove o listener após a primeira interação
+        document.removeEventListener('touchstart', iniciarMusicaTouch);
+    }, { once: true });
 
 
 </script>
