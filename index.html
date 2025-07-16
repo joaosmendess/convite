@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎉 Convite Churrasco na Laje! 🎉</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Fredoka+One&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+</head>
+
+<body>
+    <div id="particles-js"></div>
+    <div id="conteudo">
+        <!-- Player de música -->
+        <div class="music-player">
+            <audio id="bgMusic" loop>
+                <source src="EU VOU ZUAR E BEBER (Lá no meu apartamento) - NATTAN.mp3" type="audio/mpeg">
+                Seu navegador não suporta o elemento de áudio.
+            </audio>
+            <button id="musicToggle" class="music-btn" onclick="toggleMusic()">
+                🎵
+            </button>
+        </div>
+        
+        <h1 class="titulo-principal">🎂 ANIVERSÁRIO! 🎂</h1>
+        
+        <div class="card-convite">
+            <h2 class="titulo-retro">Você foi convidado pro meu aniversário!</h2>
+            <div class="detalhes">
+                <p class="data">📅 20 de Julho</p>
+                <p class="hora">⏰ 13:00h</p>
+                <p class="local">🏠 Na Laje</p>
+                <p class="comida">🍖 Churrasquinho </p>
+            </div>
+        </div>
+
+        <div class="img-container">
+            <img src="foto.jpg" alt="foto aniversário" class="emoji-img" />
+        </div>
+
+        <div class="botoes">
+            <button class="btn btn-sim" onclick="aceitar()">VOU! 🎉</button>
+            <button class="btn btn-nao" onclick="desvia(this)" onmouseover="desvia(this)" ontouchstart="desvia(this); event.preventDefault();">
+                NÃO POSSO 😢
+            </button>
+        </div>
+        
+        <button class="btn-teste" onclick="testarConfetti()" style="margin-top: 20px; background: #8b5cf6; color: white; border: none; padding: 10px 20px; border-radius: 10px; cursor: pointer;">
+            🎉🎉🎉
+        </button>
+
+    </div>
+
+    <div id="modal-vitoria" class="modal">
+        <div class="modal-content">
+            <button class="fechar-modal" onclick="fecharModal()">✕</button>
+            <h2>🎉 CUIDA! 🎉</h2>
+            <p>Você confirmou presença!</p>
+            <p>Vai ser pressão 🍖🍺</p>
+            <div class="fogos"></div>
+            <div class="fogos-extra"></div>
+        </div>
+    </div>
+</body>
+
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background: #000000;
+        font-family: 'Fredoka One', cursive;
+        overflow-x: hidden;
+    }
+
+    #particles-js {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        z-index: 1;
+        pointer-events: none;
+    }
+
+    #conteudo {
+        width: 100vw;
+        min-height: 100vh;
+        position: relative;
+        padding: 20px;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 2;
+    }
+
+    .titulo-principal {
+        font-size: 3em;
+        color: #fff;
+        text-shadow: 0 0 15px #10b981, 3px 3px 0 #10b981;
+        margin-bottom: 30px;
+        animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+        0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+        40% { transform: translateY(-20px); }
+        60% { transform: translateY(-10px); }
+    }
+
+    .card-convite {
+        background: rgba(255, 255, 255, 0.1);
+        border: 2px solid #10b981;
+        border-radius: 20px;
+        padding: 30px;
+        margin: 20px 0;
+        box-shadow: 0 8px 32px rgba(16, 185, 129, 0.2), 0 10px 30px rgba(0,0,0,0.3);
+        transform: rotate(-2deg);
+        animation: float 3s ease-in-out infinite;
+        backdrop-filter: blur(10px);
+    }
+
+    @keyframes float {
+        0%, 100% { transform: rotate(-2deg) translateY(0px); }
+        50% { transform: rotate(-2deg) translateY(-10px); }
+    }
+
+    .titulo-retro {
+        font-family: 'Bungee', sans-serif;
+        font-size: 2.2em;
+        background: linear-gradient(45deg, #f59e0b, #ef4444, #8b5cf6);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 20px;
+        text-shadow: 0 0 10px rgba(245, 158, 11, 0.3);
+    }
+
+    .detalhes {
+        font-size: 1.2em;
+        color: #f3f4f6;
+        line-height: 1.6;
+        text-shadow: 0 0 5px rgba(243, 244, 246, 0.5);
+    }
+
+    .detalhes p {
+        margin: 8px 0;
+        font-weight: bold;
+    }
+
+    .img-container {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        width: 250px;
+        height: 250px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 30px auto;
+        box-shadow: 0 8px 32px rgba(239, 68, 68, 0.3), 0 8px 25px rgba(0,0,0,0.3);
+        animation: pulse 1.5s infinite alternate;
+        border: 3px solid #ef4444;
+    }
+
+    @keyframes pulse {
+        0% { 
+            box-shadow: 0 8px 32px rgba(239, 68, 68, 0.3), 0 0 0 0 rgba(239, 68, 68, 0.3); 
+            transform: scale(1);
+        }
+        100% { 
+            box-shadow: 0 8px 40px rgba(239, 68, 68, 0.5), 0 0 30px 15px rgba(245, 158, 11, 0.2); 
+            transform: scale(1.05);
+        }
+    }
+
+    .emoji-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+        transition: transform 0.3s;
+    }
+
+    .emoji-img.gira {
+        animation: gira 0.8s cubic-bezier(.36,1.56,.64,1) 1;
+    }
+
+    @keyframes gira {
+        0% { transform: rotate(0deg) scale(1); }
+        40% { transform: rotate(25deg) scale(1.3); }
+        60% { transform: rotate(-25deg) scale(1.3); }
+        100% { transform: rotate(0deg) scale(1); }
+    }
+
+    .botoes {
+        display: flex;
+        gap: 30px;
+        justify-content: center;
+        margin: 30px 0;
+    }
+
+    .btn {
+        border: none;
+        padding: 18px 35px;
+        width: 120px;
+        border-radius: 50px;
+        font-size: 1.3em;
+        cursor: pointer;
+        transition: all 0.3s;
+        font-family: 'Bungee', sans-serif;
+        font-weight: bold;
+        text-transform: uppercase;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    .btn-sim {
+        background: linear-gradient(45deg, #10b981, #059669);
+        color: #fff;
+        border: 2px solid #10b981;
+        font-weight: bold;
+    }
+
+    .btn-sim:hover {
+        background: linear-gradient(45deg, #059669, #10b981);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4), 0 8px 20px rgba(0,0,0,0.3);
+    }
+
+    .btn-nao {
+        background: linear-gradient(45deg, #ef4444, #dc2626);
+        color: #fff;
+        border: 2px solid #ef4444;
+        font-weight: bold;
+    }
+
+    .btn-nao:hover {
+        background: linear-gradient(45deg, #dc2626, #ef4444);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(239, 68, 68, 0.4), 0 8px 20px rgba(0,0,0,0.3);
+    }
+
+    .contador {
+        background: rgba(255, 255, 255, 0.1);
+        border: 2px solid #f59e0b;
+        padding: 15px 25px;
+        border-radius: 25px;
+        font-size: 1.1em;
+        color: #f59e0b;
+        font-weight: bold;
+        box-shadow: 0 8px 25px rgba(245, 158, 11, 0.3), 0 5px 15px rgba(0,0,0,0.2);
+        text-shadow: 0 0 5px rgba(245, 158, 11, 0.5);
+    }
+
+    .music-player {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 1000;
+    }
+
+    .music-btn {
+        background: linear-gradient(45deg, #8b5cf6, #7c3aed);
+        border: 2px solid #8b5cf6;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        font-size: 24px;
+        cursor: pointer;
+        box-shadow: 0 8px 25px rgba(139, 92, 246, 0.3), 0 4px 15px rgba(0,0,0,0.3);
+        transition: all 0.3s;
+        animation: pulse-music 2s infinite;
+    }
+
+    .music-btn:hover {
+        transform: scale(1.1);
+        box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+    }
+
+    .music-btn.playing {
+        animation: pulse-music 1s infinite;
+    }
+
+    .music-btn.paused {
+        animation: none;
+        opacity: 0.7;
+    }
+
+    @keyframes pulse-music {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+    }
+
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.8);
+        animation: fadeIn 0.5s;
+    }
+
+    .modal-content {
+        background: rgba(255, 255, 255, 0.1);
+        border: 3px solid #f59e0b;
+        margin: 15% auto;
+        padding: 40px;
+        border-radius: 20px;
+        width: 80%;
+        max-width: 400px;
+        text-align: center;
+        color: #fff;
+        position: relative;
+        animation: slideIn 0.5s;
+        box-shadow: 0 8px 32px rgba(245, 158, 11, 0.3), 0 10px 30px rgba(0,0,0,0.3);
+        backdrop-filter: blur(10px);
+    }
+
+    .fechar-modal {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        background: rgba(239, 68, 68, 0.8);
+        border: none;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        transition: all 0.3s;
+        z-index: 1001;
+    }
+
+    .fechar-modal:hover {
+        background: rgba(239, 68, 68, 1);
+        transform: scale(1.1);
+        box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    @keyframes slideIn {
+        from { transform: translateY(-50px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+    }
+
+
+
+    .fogos {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        overflow: hidden;
+    }
+
+    .fogo {
+        position: absolute;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        animation: fogo 2s ease-out forwards;
+    }
+
+    .fogo::before {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background: inherit;
+        animation: fogo-sparkle 0.5s ease-out infinite;
+    }
+
+    @keyframes fogo {
+        0% { 
+            transform: translateY(0) scale(1);
+            opacity: 1;
+        }
+        50% {
+            transform: translateY(-50px) scale(1.5);
+            opacity: 0.8;
+        }
+        100% { 
+            transform: translateY(-120px) scale(0.1);
+            opacity: 0;
+        }
+    }
+
+    @keyframes fogo-sparkle {
+        0% { transform: scale(1); opacity: 1; }
+        50% { transform: scale(1.5); opacity: 0.7; }
+        100% { transform: scale(1); opacity: 1; }
+    }
+
+    .fogo-grande {
+        position: absolute;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        animation: fogo-grande 3s ease-out forwards;
+    }
+
+    @keyframes fogo-grande {
+        0% { 
+            transform: translateY(0) scale(1);
+            opacity: 1;
+        }
+        30% {
+            transform: translateY(-30px) scale(2);
+            opacity: 0.9;
+        }
+        60% {
+            transform: translateY(-80px) scale(1.5);
+            opacity: 0.7;
+        }
+        100% { 
+            transform: translateY(-150px) scale(0.1);
+            opacity: 0;
+        }
+    }
+
+    .fogo-estrela {
+        position: absolute;
+        width: 8px;
+        height: 8px;
+        background: radial-gradient(circle, #fff 0%, #f59e0b 50%, #ef4444 100%);
+        clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+        animation: fogo-estrela 2.5s ease-out forwards;
+        box-shadow: 0 0 12px rgba(245, 158, 11, 0.6);
+    }
+
+    @keyframes fogo-estrela {
+        0% { 
+            transform: translateY(0) scale(1) rotate(0deg);
+            opacity: 1;
+        }
+        40% {
+            transform: translateY(-60px) scale(1.8) rotate(180deg);
+            opacity: 0.9;
+        }
+        100% { 
+            transform: translateY(-140px) scale(0.2) rotate(360deg);
+            opacity: 0;
+        }
+    }
+
+    .fogo[style*="--x"] {
+        animation: fogo-explosao 2s ease-out forwards;
+    }
+
+    @keyframes fogo-explosao {
+        0% { 
+            transform: translateY(0) scale(1);
+            opacity: 1;
+        }
+        50% {
+            transform: translate(calc(var(--x) * 0.5), calc(var(--y) * 0.5)) scale(1.2);
+            opacity: 0.8;
+        }
+        100% { 
+            transform: translate(var(--x), var(--y)) scale(0.1);
+            opacity: 0;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .titulo-principal {
+            font-size: 2em;
+        }
+        
+        .card-convite {
+            padding: 20px;
+            margin: 15px;
+        }
+        
+        .titulo-retro {
+            font-size: 1.5em;
+        }
+        
+        .img-container {
+            width: 180px;
+            height: 180px;
+        }
+        
+        .emoji-img {
+            width: 100px;
+            height: 100px;
+        }
+        
+        .botoes {
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .btn {
+            width: 100%;
+            font-size: 1.1em;
+        }
+    }
+</style>
+
+<script>
+    // Contador regressivo (removido pois o elemento não existe mais)
+    // function atualizarContador() {
+    //     const dataEvento = new Date('2024-07-20T13:00:00');
+    //     const agora = new Date();
+    //     const diferenca = dataEvento - agora;
+    //     
+    //     if (diferenca > 0) {
+    //         const dias = Math.floor(diferenca / (1000 * 60 * 60 * 24));
+    //         document.getElementById('dias').textContent = dias;
+    //     } else {
+    //         document.getElementById('dias').textContent = '0';
+    //     }
+    // }
+
+    // atualizarContador();
+    // setInterval(atualizarContador, 1000);
+
+    // Confetti
+    function criarConfetti() {
+        confetti({
+            particleCount: 150,
+            spread: 90,
+            origin: { y: 0.6 }
+        });
+    }
+
+    // Confetti será iniciado no load da página
+
+    function aceitar() {
+        const img = document.querySelector('.emoji-img');
+        img.src = 'foto-2.jpg';
+        img.classList.add('gira');
+        setTimeout(() => img.classList.remove('gira'), 800);
+        
+        // Aumentar volume da música
+        if (isMusicPlaying && bgMusic) {
+            bgMusic.volume = 0.7;
+        }
+        
+        // Mostrar modal de vitória
+        setTimeout(() => {
+            document.getElementById('modal-vitoria').style.display = 'block';
+            criarFogos();
+            
+            // Confetti especial ao aceitar
+            if (typeof confetti !== 'undefined') {
+                confetti({
+                    particleCount: 300,
+                    spread: 180,
+                    origin: { y: 0.3 }
+                });
+                
+                // Confetti extra após 1 segundo
+                setTimeout(() => {
+                    confetti({
+                        particleCount: 250,
+                        spread: 160,
+                        origin: { y: 0.4 }
+                    });
+                }, 1000);
+            }
+            
+            // Fogos extras em sequência
+            setTimeout(() => criarFogos(), 1000);
+            setTimeout(() => criarFogos(), 2000);
+            setTimeout(() => criarFogos(), 3000);
+        }, 1000);
+        
+        // Mostrar mensagem especial após 3 segundos
+        setTimeout(() => {
+            const modal = document.getElementById('modal-vitoria');
+            const modalContent = modal.querySelector('.modal-content');
+            modalContent.innerHTML = `
+                <button class="fechar-modal" onclick="fecharModal()">✕</button>
+                <h2>🎉 PARABÉNS! 🎉</h2>
+                <p>Você confirmou presença!</p>
+                <p class="mensagem-especial">Te espero na laje!</p>
+                <div class='fogos'></div>
+                <div class='fogos-extra'></div>
+            `;
+            criarFogos();
+            // Abrir WhatsApp após 1.5s
+            setTimeout(() => {
+                const msg = encodeURIComponent('Oi! Estou confirmando minha presença no aniversário na laje! 🎉🍖');
+                window.open('https://wa.me/5582999259103?text=' + msg, '_blank');
+            }, 1500);
+        }, 3000);
+    }
+
+    function desvia(btn) {
+        btn.style.position = 'relative';
+        btn.style.left = geraPosicao(-150, 150);
+        btn.style.top = geraPosicao(-50, 50);
+        btn.style.transform = 'rotate(' + (Math.random() * 20 - 10) + 'deg)';
+        console.log('vai  bobo olha o console');
+    }
+
+    function geraPosicao(min, max) {
+        return (Math.random() * (max - min) + min) + "px";
+    }
+
+    function fecharModal() {
+        document.getElementById('modal-vitoria').style.display = 'none';
+    }
+
+    function testarConfetti() {
+        if (typeof confetti !== 'undefined') {
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+            console.log('Confetti funcionando!');
+        } else {
+            console.log('Confetti não carregou');
+            alert('Confetti não carregou. Verifique a conexão com a internet.');
+        }
+    }
+
+    function criarFogos() {
+        const fogosContainer = document.querySelector('.fogos');
+        const cores = ['#10b981', '#ef4444', '#f59e0b', '#8b5cf6', '#06b6d4', '#ec4899', '#84cc16', '#f97316'];
+        
+        // Criar fogos por 3 segundos
+        const duracao = 3000;
+        const intervalo = 50; // Novo fogo a cada 50ms
+        const totalFogos = duracao / intervalo;
+        
+        for (let i = 0; i < totalFogos; i++) {
+            setTimeout(() => {
+                // Escolher tipo de fogo aleatoriamente
+                const tipos = ['fogo', 'fogo-grande', 'fogo-estrela'];
+                const tipo = tipos[Math.floor(Math.random() * tipos.length)];
+                
+                const fogo = document.createElement('div');
+                fogo.className = tipo;
+                fogo.style.left = Math.random() * 100 + '%';
+                fogo.style.bottom = '0px';
+                
+                // Cor aleatória
+                const cor = cores[Math.floor(Math.random() * cores.length)];
+                fogo.style.backgroundColor = cor;
+                
+                // Tamanho aleatório para fogos normais
+                if (tipo === 'fogo') {
+                    const tamanho = 4 + Math.random() * 6;
+                    fogo.style.width = tamanho + 'px';
+                    fogo.style.height = tamanho + 'px';
+                }
+                
+                fogosContainer.appendChild(fogo);
+                
+                // Remover após a animação
+                setTimeout(() => {
+                    if (fogo.parentNode) {
+                        fogo.remove();
+                    }
+                }, 3000);
+                
+            }, i * intervalo);
+        }
+        
+        // Criar fogos extras em explosões
+        setTimeout(() => criarExplosao(fogosContainer, cores), 500);
+        setTimeout(() => criarExplosao(fogosContainer, cores), 1500);
+        setTimeout(() => criarExplosao(fogosContainer, cores), 2500);
+    }
+    
+    function criarExplosao(container, cores) {
+        const centroX = 50 + (Math.random() - 0.5) * 60; // Entre 20% e 80%
+        
+        for (let i = 0; i < 15; i++) {
+            setTimeout(() => {
+                const fogo = document.createElement('div');
+                fogo.className = 'fogo';
+                fogo.style.left = centroX + '%';
+                fogo.style.bottom = '0px';
+                fogo.style.backgroundColor = cores[Math.floor(Math.random() * cores.length)];
+                
+                // Direção aleatória em círculo
+                const angulo = (i / 15) * 360 + Math.random() * 30;
+                const distancia = 80 + Math.random() * 40;
+                const x = Math.cos(angulo * Math.PI / 180) * distancia;
+                const y = Math.sin(angulo * Math.PI / 180) * distancia;
+                
+                fogo.style.setProperty('--x', x + 'px');
+                fogo.style.setProperty('--y', y + 'px');
+                
+                container.appendChild(fogo);
+                
+                setTimeout(() => {
+                    if (fogo.parentNode) {
+                        fogo.remove();
+                    }
+                }, 2000);
+                
+            }, i * 20);
+        }
+    }
+
+    // Efeito de digitação no título
+    function typeWriter(element, text, speed = 100) {
+        let i = 0;
+        element.innerHTML = '';
+        
+        function type() {
+            if (i < text.length) {
+                element.innerHTML += text.charAt(i);
+                i++;
+                setTimeout(type, speed);
+            }
+        }
+        type();
+    }
+
+    // Controle de música
+    let isMusicPlaying = false;
+    let musicBtn;
+    let bgMusic;
+
+    function toggleMusic() {
+        if (!musicBtn || !bgMusic) {
+            musicBtn = document.getElementById('musicToggle');
+            bgMusic = document.getElementById('bgMusic');
+        }
+        
+        if (isMusicPlaying) {
+            bgMusic.pause();
+            musicBtn.classList.remove('playing');
+            musicBtn.classList.add('paused');
+            musicBtn.textContent = '🔇';
+        } else {
+            bgMusic.play();
+            musicBtn.classList.remove('paused');
+            musicBtn.classList.add('playing');
+            musicBtn.textContent = '🎵';
+        }
+        isMusicPlaying = !isMusicPlaying;
+    }
+
+    // Configuração das partículas
+    let particlesInstance;
+    if (typeof particlesJS !== 'undefined') {
+        particlesInstance = particlesJS('particles-js', {
+            particles: {
+                number: {
+                    value: 80,
+                    density: {
+                        enable: true,
+                        value_area: 800
+                    }
+                },
+                color: {
+                    value: ['#10b981', '#ef4444', '#f59e0b', '#8b5cf6', '#06b6d4']
+                },
+                shape: {
+                    type: 'circle',
+                    stroke: {
+                        width: 0,
+                        color: '#000000'
+                    }
+                },
+                opacity: {
+                    value: 0.7,
+                    random: true,
+                    anim: {
+                        enable: true,
+                        speed: 2,
+                        opacity_min: 0.3,
+                        sync: false
+                    }
+                },
+                size: {
+                    value: 4,
+                    random: true,
+                    anim: {
+                        enable: true,
+                        speed: 3,
+                        size_min: 2,
+                        sync: false
+                    }
+                },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: '#10b981',
+                    opacity: 0.4,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 4,
+                    direction: 'none',
+                    random: true,
+                    straight: false,
+                    out_mode: 'bounce',
+                    bounce: true,
+                    attract: {
+                        enable: true,
+                        rotateX: 600,
+                        rotateY: 1200
+                    }
+                }
+            },
+            interactivity: {
+                detect_on: 'canvas',
+                events: {
+                    onhover: {
+                        enable: true,
+                        mode: 'repulse'
+                    },
+                    onclick: {
+                        enable: true,
+                        mode: 'push'
+                    },
+                    resize: true
+                },
+                modes: {
+                    grab: {
+                        distance: 400,
+                        line_linked: {
+                            opacity: 1
+                        }
+                    },
+                    bubble: {
+                        distance: 400,
+                        size: 40,
+                        duration: 2,
+                        opacity: 8,
+                        speed: 3
+                    },
+                    repulse: {
+                        distance: 200,
+                        duration: 0.4
+                    },
+                    push: {
+                        particles_nb: 4
+                    },
+                    remove: {
+                        particles_nb: 2
+                    }
+                }
+            },
+            retina_detect: true
+        });
+        
+        // Função para sincronizar partículas com a música
+        function sincronizarParticulasComMusica() {
+            if (bgMusic && isMusicPlaying) {
+                // Simular análise de frequência (graves)
+                const agora = Date.now();
+                const frequencia = Math.sin(agora * 0.01) * 0.5 + 0.5; // Simula graves
+                
+                // Atualizar velocidade baseada na "frequência"
+                const velocidadeBase = 4;
+                const velocidadeAtual = velocidadeBase + (frequencia * 3);
+                
+                // Atualizar tamanho baseado nos "graves"
+                const tamanhoBase = 4;
+                const tamanhoAtual = tamanhoBase + (frequencia * 2);
+                
+                // Atualizar opacidade baseada nos "graves"
+                const opacidadeBase = 0.7;
+                const opacidadeAtual = opacidadeBase + (frequencia * 0.3);
+                
+                // Aplicar mudanças às partículas
+                if (particlesInstance && particlesInstance.pJS) {
+                    particlesInstance.pJS.particles.array.forEach(particle => {
+                        particle.velocity.x = (Math.random() - 0.5) * velocidadeAtual;
+                        particle.velocity.y = (Math.random() - 0.5) * velocidadeAtual;
+                        particle.size = tamanhoAtual + Math.random() * 2;
+                        particle.opacity = opacidadeAtual;
+                    });
+                }
+            }
+        }
+        
+        // Executar sincronização a cada 100ms
+        setInterval(sincronizarParticulasComMusica, 100);
+    }
+
+    // Tentar tocar música automaticamente quando a página carregar
+    window.addEventListener('load', () => {
+        const titulo = document.querySelector('.titulo-retro');
+        const textoOriginal = titulo.textContent;
+        typeWriter(titulo, textoOriginal, 80);
+        
+        // Inicializar variáveis de música
+        musicBtn = document.getElementById('musicToggle');
+        bgMusic = document.getElementById('bgMusic');
+        
+        // Iniciar confetti
+        setTimeout(() => {
+            if (typeof confetti !== 'undefined') {
+                setInterval(criarConfetti, 1500);
+            } else {
+                console.log('Confetti não carregou');
+            }
+        }, 1000);
+        
+        // Tentar tocar música automaticamente
+        if (bgMusic) {
+            bgMusic.volume = 0.3; // Volume mais baixo
+            bgMusic.play().then(() => {
+                isMusicPlaying = true;
+                if (musicBtn) {
+                    musicBtn.classList.add('playing');
+                }
+            }).catch(() => {
+                // Se não conseguir tocar automaticamente, mostra botão pausado
+                if (musicBtn) {
+                    musicBtn.classList.add('paused');
+                    musicBtn.textContent = '🔇';
+                }
+            });
+        }
+    });
+
+
+</script>
+
+</html> 
